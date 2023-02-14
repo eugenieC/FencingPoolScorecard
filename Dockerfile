@@ -7,5 +7,5 @@ RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 8000
 USER 1000
-#CMD [ "python", "./app.py" ]
-CMD [ "python", "./__init__.py" ]
+CMD [ "python", "./app.py" ]
+
