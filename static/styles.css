@@ -1,0 +1,142 @@
+.boutTableHeader {
+    color: #ffeb3b !important;
+    background-color: #4b6c9e !important;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.boutTable {
+    table-layout: fixed;
+    border-spacing: 2px;
+    width: 40rem;
+}
+
+.boutPosCol {
+    width: 4%;
+}
+
+.boutNameCol {
+    width: 40%;
+}
+
+.boutScoreCol {
+    width: 8%;
+}
+
+.boutScore {
+    font-size: 1.0rem;
+    text-align: center;
+}
+
+body {
+    font-family: Roboto,sans-serif;
+}
+
+
+
+
+
+
+.poolHeader {
+    color: #ffeb3b !important;
+    background-color: #4b6c9e !important;
+    font-size: .8rem;
+    font-weight: bold;
+}
+
+.poolTable {
+    table-layout: fixed;
+    width: auto;
+    margin-bottom: 0.5rem;
+}
+
+.poolRow {
+    line-height: 1.2rem;
+    height: 2.5rem;
+}
+
+.poolPos {
+    text-align: center;
+    color: #ffeb3b !important;
+    background-color: #4b6c9e !important;
+    font-size: .8rem;
+    font-weight: bold;
+    border: none !important;
+    vertical-align: middle !important;
+}
+
+.poolCompName {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.poolScoreBout {
+    text-align: center;
+    justify-content: center;
+    background-color: rgb(227, 225, 225);
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+
+.poolSep {
+    background-color: #4b6c9e !important;
+    border: none !important;
+}
+
+.poolScore {
+    font-size: 1.25rem;
+    text-align: center;
+    vertical-align: middle !important;
+}
+
+.poolScoreD {
+    background-color: #fcc;
+}
+
+.poolScoreV {
+    background-color: #cfc;
+}
+
+.poolScoreFill {
+    background-color: #5a5858;
+    border: none !important;
+}
+
+.poolResult {
+    font-size: 1.25rem;
+    text-align: center;
+    vertical-align: middle !important;
+}
+
+
+.text-center {
+    text-align: center!important;
+}
+
+
+
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+table.table-sm th, table.table-sm td {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.table-sm td, .table-sm th {
+    padding: 0.3rem;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+
