@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head> 
+    <meta charset="'UTF-8">
+    <meta name="viewport" content="width=device-withd, initial-scale=1" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+    <body>
+        <h2>FencingTimeLive Pool Detail</h2>
+        <form method="GET">
+            <label for="qsite">Page Link:</label>
+            <input type="text" name="qsite" id="qsite" value="{{ query }}" size="65">
+            <input type="submit" value="Search">
+        </form>
+        <br>
+
+        <form method="POST"> 
+            <table  class="table table-condensed table-sm table-bordered boutTable">
+                <tr class="boutTableHeader">
+                    <th class="boutPosCol"  > {{ headings[0] }}</th>
+                    <th class="boutNameCol" > {{ headings[1] }}</th>
+                    <th class="boutScoreCol"> {{ headings[2] }}</th>
+                    <th class="boutScoreCol"> {{ headings[3] }}</th>
+                    <th class="boutNameCol" > {{ headings[4] }}</th>
+                    <th class="boutPosCol"  > {{ headings[5] }}</th>
+                </tr>
+                {% for row in filtered_data %}
+                <tr>
+                    <td class="poolPos"> {{ row[0] }}</td>
+                    <td class="text-center poolCompName"> {{ row[1] }}</td> 
+                    <td> <select class="poolScoreBout" name="rightscore_{{loop.index0}}">
+                            <option value="{{ row[2] }}" selected>{{ row[2] }}</option>
+                            {% for option in dropdown_values %}
+                            <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>  
+
+                    <td> <select class="poolScoreBout" name="leftscore_{{loop.index0}}">
+                        <option value="{{ row[3] }}" selected>{{ row[3] }}</option>
+                        {% for option in dropdown_values %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    </td> 
+                    <td class="text-center poolCompName"> {{ row[4] }}</td>
+                    <td class="poolPos" > {{ row[5] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <button type="submit">Save Scores</button>
+        </form>
+
+        <br>
+        {% if warning !="" %} <h4 style="color:Tomato;">{{ warning }}</h4> {%endif%}
+        <br>
+        <h2>Pool Matrix</h2>
+        <table  class="table table-condensed table-sm table-bordered poolTable">
+            <thead>
+                <tr class="poolHeader">
+                    <th class="poolNameCol"></th>
+                    <th class="poolPosCol"></th>
+                    <th style="width: 5.142857142857143%;">1</th>
+                    <th style="width: 5.142857142857143%;">2</th>
+                    <th style="width: 5.142857142857143%;">3</th>
+                    <th style="width: 5.142857142857143%;">4</th>
+                    <th style="width: 5.142857142857143%;">5</th>
+                    <th style="width: 5.142857142857143%;">6</th>
+                    <th style="width: 5.142857142857143%;">7</th>
+                    <th class="poolSepCol"></th>
+                    <th class="poolResCol">V</th>
+                    <th class="poolResCol">V / M</th>
+                    <th class="poolResCol">TS</th>
+                    <th class="poolResCol">TR</th>
+                    <th class="poolResCol">Ind</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for matrixrow in poolmatrixdata %}
+                    <tr class="poolRow">
+                        <td class="poolCompName"> {{ matrixrow[0]}} </td>
+                        <td class="poolPos"> {{ matrixrow[1]}} </td>
+                        {% for i in range(2,9) %}
+                            {% if "s" in matrixrow[i].lower() %}
+                                <td class="poolScoreFill"></td>
+                            {%elif "v" in matrixrow[i].lower() %}
+                                <td class="poolScore poolScoreV">{{ matrixrow[i] }}</td> 
+                            {%elif "d" in matrixrow[i].lower() %}
+                                <td class="poolScore poolScoreD">{{ matrixrow[i] }}</td> 
+                            {%else%}
+                            <td class="poolScoreFill"></td>
+                            {% endif %}
+                        {% endfor %}
+                        <td class="poolSep"></td>
+                        <td class="poolResult"> {{ matrixrow[9] }}</td>
+                        <td class="poolResult"> {{ matrixrow[10] }}</td>
+                        <td class="poolResult"> {{ matrixrow[11] }}</td>
+                        <td class="poolResult"> {{ matrixrow[12] }}</td>
+                        <td class="poolResult"> {{ matrixrow[13] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
+
