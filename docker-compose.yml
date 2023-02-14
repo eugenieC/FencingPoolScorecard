@@ -1,0 +1,14 @@
+version: "3"
+services:
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - 4444:4444
+      - 5900:5900
+  app:
+    build: ./app
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:8000"
+    tty: true
