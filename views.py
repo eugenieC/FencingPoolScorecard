@@ -4,7 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-options = Options()
+options = webdriver.ChromeOptions()
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
 options.add_argument("--disable-dev-shm-usage")
