@@ -3,64 +3,77 @@
 <head> 
     <meta charset="'UTF-8">
     <meta name="viewport" content="width=device-withd, initial-scale=1" />
-    <title>Document</title>
+    <title>Fencing Pool Scorecard</title>
     <link rel="stylesheet" href="/static/styles.css" />
 </head>
     <body>
-        <h2>FencingTimeLive Pool Detail</h2>
-        <form method="GET">
-            <label for="qsite">Page Link:</label>
-            <input type="text" name="qsite" id="qsite" value="{{ query }}" size="65">
-            <input type="submit" value="Search">
-        </form>
-        <br>
+        <h3>Bout Scores</h3>
+            <form method="POST"> 
+                <h4>Fencer Name
+                <input type="text" name="MyName" id="MyName" value="{{ MyName }}">
+                </h4>
+                <table  class="table table-bordered boutTable">
+                    <tr class="boutTableHeader">
+                        <th class="boutPosCol"  > {{ headings[0] }}</th>
+                        <th class="boutScoreCol"> {{ headings[1] }}</th>
+                        <th class="boutScoreCol"> {{ headings[2] }}</th>
+                        <th class="boutPosCol"  > {{ headings[3] }}</th>
+                        <th class="boutNameCol" > {{ headings[4] }}</th>
+                    </tr>
+                    {% for row in range(numFencer) %}
+                    <tr>
+                        {%if row==0 %}
+                            <td> <select class="poolPos" name="myPosition">
+                                <option value="{{ bout_data[row][0] }}" selected>{{ bout_data[row][0] }}</option>
+                                {% for option in dropdown_values_position %}
+                                <option value="{{ option }}">{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                            </td>
+                        {%else%} 
+                            <td class="poolPos"></td>
+                        {% endif %}  
 
-        <form method="POST"> 
-            <table  class="table table-condensed table-sm table-bordered boutTable">
-                <tr class="boutTableHeader">
-                    <th class="boutPosCol"  > {{ headings[0] }}</th>
-                    <th class="boutNameCol" > {{ headings[1] }}</th>
-                    <th class="boutScoreCol"> {{ headings[2] }}</th>
-                    <th class="boutScoreCol"> {{ headings[3] }}</th>
-                    <th class="boutNameCol" > {{ headings[4] }}</th>
-                    <th class="boutPosCol"  > {{ headings[5] }}</th>
-                </tr>
-                {% for row in filtered_data %}
-                <tr>
-                    <td class="poolPos"> {{ row[0] }}</td>
-                    <td class="text-center poolCompName"> {{ row[1] }}</td> 
-                    <td> <select class="poolScoreBout" name="rightscore_{{loop.index0}}">
-                            <option value="{{ row[2] }}" selected>{{ row[2] }}</option>
+
+                        <td> <select class="poolScoreBout" name="myScore_{{loop.index0}}">
+                            <option value="{{ bout_data[row][1] }}" selected>{{ bout_data[row][1] }}</option>
                             {% for option in dropdown_values %}
+                             <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                        </td>  
+                        <td> <select class="poolScoreBout" name="opponentScore_{{loop.index0}}">
+                            <option value="{{ bout_data[row][2] }}" selected>{{ bout_data[row][2] }}</option>
+                            {% for option in dropdown_values %}
+                             <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                        </td>  
+                        </td>  
+                        <td> <select class="poolPos" name="opponentPosition_{{loop.index0}}">
+                            <option value="{{ bout_data[row][3] }}" selected>{{ bout_data[row][3] }}</option>
+                            {% for option in dropdown_values_position %}
                             <option value="{{ option }}">{{ option }}</option>
                             {% endfor %}
                         </select>
-                    </td>  
-
-                    <td> <select class="poolScoreBout" name="leftscore_{{loop.index0}}">
-                        <option value="{{ row[3] }}" selected>{{ row[3] }}</option>
-                        {% for option in dropdown_values %}
-                        <option value="{{ option }}">{{ option }}</option>
-                        {% endfor %}
-                    </select>
-                    </td> 
-                    <td class="text-center poolCompName"> {{ row[4] }}</td>
-                    <td class="poolPos" > {{ row[5] }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-            <br>
-            <button type="submit">Save Scores</button>
-        </form>
-
-        <br>
-        {% if warning !="" %} <h4 style="color:Tomato;">{{ warning }}</h4> {%endif%}
-        <br>
-        <h2>Pool Matrix</h2>
-        <table  class="table table-condensed table-sm table-bordered poolTable">
+                        </td>  
+                        <td class="text-center poolCompName">            
+                          <input type="text" name="opponentName_{{loop.index0}}" id="opponentName" value="{{ bout_data[row][4] }}">
+                        </td> 
+                        </tr>
+                    {% endfor %}
+                </table>
+                <br>
+                <button type="submit" name='btn' value="calculate">Save Bout Score</button>
+                <button type="submit" name='btn' value="reset">Reset</button><br>
+            </form>
+        {% for row in warning_list %} <h4 style="color:Tomato;">{{ row }}<br></h4> {%endfor%}
+        <h3>Pool Scorecard</h3>
+        <form method="POST"> 
+        <table  class="table  table-bordered poolTable">
             <thead>
                 <tr class="poolHeader">
-                    <th class="poolNameCol"></th>
+                    <th class="poolNameCol">Fencer</th>
                     <th class="poolPosCol"></th>
                     <th style="width: 5.142857142857143%;">1</th>
                     <th style="width: 5.142857142857143%;">2</th>
@@ -103,6 +116,6 @@
                 {% endfor %}
             </tbody>
         </table>
+
     </body>
 </html>
-
