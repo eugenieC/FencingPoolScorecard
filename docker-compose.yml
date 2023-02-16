@@ -1,15 +1,15 @@
 version: '3'
 services:
-    web:
-        build: .
-        ports:
-            - "5000:5000"
-        volumes:
-            - .:/code
-        depends_on:
-            - redis
-    redis:
-        image: redis
+    ports:
+      - 4444:4444
+      - 5900:5900
+  app:
+    build: ./app
+    volumes:
+      - ./app:/app
+    ports:
+      - "8000:8000"
+    tty: true
 
 
 # version: "3"
