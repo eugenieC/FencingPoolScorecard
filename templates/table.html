@@ -8,65 +8,70 @@
 </head>
     <body>
         <h3>Bout Scores</h3>
-            <form method="POST"> 
-                <h4>Fencer Name
-                <input type="text" name="MyName" id="MyName" value="{{ MyName }}">
-                </h4>
-                <table  class="table table-bordered boutTable">
-                    <tr class="boutTableHeader">
-                        <th class="boutPosCol"  > {{ headings[0] }}</th>
-                        <th class="boutScoreCol"> {{ headings[1] }}</th>
-                        <th class="boutScoreCol"> {{ headings[2] }}</th>
-                        <th class="boutPosCol"  > {{ headings[3] }}</th>
-                        <th class="boutNameCol" > {{ headings[4] }}</th>
-                    </tr>
-                    {% for row in range(numFencer) %}
-                    <tr>
-                        {%if row==0 %}
-                            <td> <select class="poolPos" name="myPosition">
-                                <option value="{{ bout_data[row][0] }}" selected>{{ bout_data[row][0] }}</option>
-                                {% for option in dropdown_values_position %}
-                                <option value="{{ option }}">{{ option }}</option>
-                                {% endfor %}
-                            </select>
-                            </td>
-                        {%else%} 
-                            <td class="poolPos"></td>
-                        {% endif %}  
+        <h4>Fencer Name
+        <input type="text" name="FencerName" id="FencerName" value="{{ MyName }}" style="display: inline-block;">
+        <form method="POST" style="display: inline-block;"> 
+            <button type="submit" name='btn' value="reset">Reset</button>
+        </form>         
+        </h4>
 
-
-                        <td> <select class="poolScoreBout" name="myScore_{{loop.index0}}">
-                            <option value="{{ bout_data[row][1] }}" selected>{{ bout_data[row][1] }}</option>
-                            {% for option in dropdown_values %}
-                             <option value="{{ option }}">{{ option }}</option>
-                            {% endfor %}
-                        </select>
-                        </td>  
-                        <td> <select class="poolScoreBout" name="opponentScore_{{loop.index0}}">
-                            <option value="{{ bout_data[row][2] }}" selected>{{ bout_data[row][2] }}</option>
-                            {% for option in dropdown_values %}
-                             <option value="{{ option }}">{{ option }}</option>
-                            {% endfor %}
-                        </select>
-                        </td>  
-                        </td>  
-                        <td> <select class="poolPos" name="opponentPosition_{{loop.index0}}">
-                            <option value="{{ bout_data[row][3] }}" selected>{{ bout_data[row][3] }}</option>
+        <form method="POST"> 
+            <table  class="table table-bordered boutTable">
+                <tr class="boutTableHeader">
+                    <th class="boutPosCol"  > {{ headings[0] }}</th>
+                    <th class="boutScoreCol"> {{ headings[1] }}</th>
+                    <th class="boutScoreCol"> {{ headings[2] }}</th>
+                    <th class="boutPosCol"  > {{ headings[3] }}</th>
+                    <th class="boutNameCol" > {{ headings[4] }}</th>
+                </tr>
+                {% for row in range(numFencer) %}
+                <tr>
+                    {%if row==0 %}
+                        <td> <select class="poolPos" name="myPosition">
+                            <option value="{{ bout_data[row][0] }}" selected>{{ bout_data[row][0] }}</option>
                             {% for option in dropdown_values_position %}
                             <option value="{{ option }}">{{ option }}</option>
                             {% endfor %}
                         </select>
-                        </td>  
-                        <td class="text-center poolCompName">            
-                          <input type="text" name="opponentName_{{loop.index0}}" id="opponentName" value="{{ bout_data[row][4] }}">
-                        </td> 
-                        </tr>
-                    {% endfor %}
-                </table>
-                <br>
-                <button type="submit" name='btn' value="calculate">Save Bout Score</button>
-                <button type="submit" name='btn' value="reset">Reset</button><br>
-            </form>
+                        </td>
+                    {%else%} 
+                        <td class="poolPos"></td>
+                    {% endif %}  
+
+
+                    <td> <select class="poolScoreBout" name="myScore_{{loop.index0}}">
+                        <option value="{{ bout_data[row][1] }}" selected>{{ bout_data[row][1] }}</option>
+                        {% for option in dropdown_values %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    </td>  
+                    <td> <select class="poolScoreBout" name="opponentScore_{{loop.index0}}">
+                        <option value="{{ bout_data[row][2] }}" selected>{{ bout_data[row][2] }}</option>
+                        {% for option in dropdown_values %}
+                            <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    </td>  
+                    </td>  
+                    <td> <select class="poolPos" name="opponentPosition_{{loop.index0}}">
+                        <option value="{{ bout_data[row][3] }}" selected>{{ bout_data[row][3] }}</option>
+                        {% for option in dropdown_values_position %}
+                        <option value="{{ option }}">{{ option }}</option>
+                        {% endfor %}
+                    </select>
+                    </td>  
+                    <td class="text-center poolCompName">            
+                        <input type="text" name="opponentName_{{loop.index0}}" id="opponentName" value="{{ bout_data[row][4] }}">
+                    </td> 
+                    </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <button type="submit" name='btn' value="calculate">Save Bout Score</button>
+            <button type="submit" name='btn' value="reset">Reset</button><br>
+        </form>
+
         {% for row in warning_list %} <h4 style="color:Tomato;">{{ row }}<br></h4> {%endfor%}
         <h3>Pool Scorecard</h3>
         <form method="POST"> 
@@ -118,4 +123,7 @@
         </table>
 
     </body>
+    <footer>
+        <p style="font-size: 12px;">Created by Eugenie Cha</p>
+      </footer>
 </html>
