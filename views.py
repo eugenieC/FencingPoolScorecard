@@ -1,48 +1,67 @@
 #library for html 
-from flask import Blueprint, render_template, request, g
+from flask import Blueprint, render_template, request, g, redirect, url_for
 
 views = Blueprint(__name__,"views")
 
+# Store the user names in a dictionary
+users = {}
+
+@views.route('/', methods=['GET', 'POST'])
+
+def index():
+    if request.method == 'POST':
+        # Add the user to the dictionary
+        username = request.form['username']
+        users[username] = {'bout_data': []
+                           ,'poolmatrixdata':[]
+                           ,'warning_list':[]}
+        
+        # Redirect to the user's subpage
+        return redirect(f'/{username}')
+    else:
+        # Render the index page
+        return render_template('index.html')
+    
+
 # define initial data
 headings = ("My Position","My Score","Opponent Score","Opponent Position","Name")
-
-bout_data = []
-poolmatrixdata = []
-#for i in range(1,8): 
-#    bout_data.append(("","","",i,""))
-#    poolmatrixdata.append(("",i,"","","","","","","","","","","",""))
-
 # number dropdown box in bout order table 
 dropdown_values_position = ['','1', '2', '3', '4', '5','6','7']
 dropdown_values = ['0', '1', '2', '3', '4', '5']
-warning=""
-warning_list=[]
-MyName=""
+# Max number of fencer
+numFencer=7
 
-@views.route('/', methods=['GET', 'POST'])
-def home():
-    global headings,poolmatrixdata,dropdown_values,dropdown_values_position,warning_list,myPosition, MyName, bout_data
-    
-    numFencer=7
-    
-    bout_data=[]
+@views.route('/<username>', methods=['GET', 'POST'])
+
+def user_page(username):
+    # Get the user's table
+    bout_data = users[username]['bout_data']
+    poolmatrixdata = users[username]['poolmatrixdata']
+    warning_list = users[username]['warning_list']
+    MyName = username
+
     for i in range(numFencer): 
-        bout_data.append(["","","","",""])
-                
-    if request.method== 'POST':      
-        
+        bout_data.append(["","","","",""]) 
+        poolmatrixdata.append(("",i,"","","","","","","","","","","",""))
+
+    if request.method == 'POST':      
         warning=""
-        MyName=""
         
         if request.form['btn'] == 'reset':
-            warning_list=[]
-            bout_data=[]
-            for i in range(numFencer): 
-                bout_data.append(["","","","",""])      
+            # warning_list=[]
+            # bout_data=[]
+            # MyName=""
+            # for i in range(numFencer): 
+            #     bout_data.append(["","","","",""])      
                 
-            poolmatrixdata=[]      
-        else:
-            MyName=request.form['MyName']               
+            # poolmatrixdata=[]      
+            
+            # print(request.host_url)
+            # Redirect the user back to the root URL
+            return redirect(url_for('views.index'))
+            
+        elif request.form['btn'] == 'calculate':  
+             
             temp=[]
             for i in range(numFencer):
                 row=[request.form['myPosition']]
@@ -79,7 +98,7 @@ def home():
             
             if len(duplist) > 0:
                 warning=warningMessage(warning,"Duplicate Opponent #"+','.join(duplist))
-            
+                
             poolmatrixdata=[]
             for i in range(numFencer): 
                 poolmatrixdata.append(["",(i+1),"","","","","","","","","","","",""])
@@ -94,7 +113,7 @@ def home():
                 oppoPos=row[3]            
                 oppoName=row[4]
                 #print("myScr: ",myScr, " myPos: ",myPos," oppoScr: ",oppoScr," oppoPos: ",oppoPos)
-                # print("myScr: ",type(myScr), " myPos: ",type(myPos)," oppoScr: ",type(oppoScr)," oppoPos: ",type(oppoPos))
+                #print("myScr: ",type(myScr), " myPos: ",type(myPos)," oppoScr: ",type(oppoScr)," oppoPos: ",type(oppoPos))
                 
                 row_cnt += 1
                 if myPos==oppoPos and myPos!='':
@@ -151,7 +170,11 @@ def home():
                     poolmatrixdata[i][11] = ts
                     poolmatrixdata[i][12] = tr                        
                     poolmatrixdata[i][13] = ts-tr                        
-                                                                                                    
+
+    users[username]['bout_data']        = bout_data
+    users[username]['poolmatrixdata']   = poolmatrixdata
+    users[username]['warning_list']     = warning_list
+
     return render_template("table.html",
                            headings=headings, 
                            bout_data=bout_data, 
